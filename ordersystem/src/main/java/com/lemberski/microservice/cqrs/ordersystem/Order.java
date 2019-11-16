@@ -1,15 +1,19 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.springframework.data.annotation.AccessType;
+import org.springframework.data.annotation.AccessType.Type;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Embedded;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,33 +21,27 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(exclude = "products")
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
+@Table("order_item")
 public class Order {
 
     @Id
-    @GeneratedValue
     private Long id;
 
     private String userId;
 
-    @Embedded
+    @Embedded.Nullable
     private Address address;
 
-    @OneToMany(
-        mappedBy = "order",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    private List<Product> products = new ArrayList<>();
+    @MappedCollection(idColumn = "order_item")
+    private Set<Product> products = new HashSet<>();
 
     public void addProduct(Product product) {
         products.add(product);
-        product.setOrder(this);
     }
 
     public void removeProduct(Product product) {
         products.remove(product);
-        product.setOrder(null);
     }
 
 }

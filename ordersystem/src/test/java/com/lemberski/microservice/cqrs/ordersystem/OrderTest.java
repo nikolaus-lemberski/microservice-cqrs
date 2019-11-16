@@ -1,49 +1,55 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.github.javafaker.Faker;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
+@Transactional
 public class OrderTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private Faker faker;
+
     @Test
     public void test() {
+        assertThat(orderRepository.count()).isEqualTo(0L);
+        assertThat(productRepository.count()).isEqualTo(0L);
+
         Address address = new Address();
-        address.setFirstName("Firstname");
-        address.setLastName("Lastname");
-        address.setStreet("Street 1");
-        address.setZip("12345");
-        address.setCity("City");
+        address.setFirstName(faker.name().firstName());
+        address.setLastName(faker.name().lastName());
+        address.setStreet(faker.address().streetName());
+        address.setZip(faker.address().zipCode());
+        address.setCity(faker.address().city());
+        address.setCountry(faker.address().country());
 
         Product product = new Product();
-        product.setSku("123ABC");
-        product.setTitle("Product 1");
-        product.setDescription("Product 1 description");
+        product.setSku(faker.code().ean13());
+        product.setTitle(faker.commerce().productName());
+        product.setDescription(faker.hitchhikersGuideToTheGalaxy().marvinQuote());
         product.setPrice(10.99);
-     
+
         Order order = new Order();
-        order.setUserId("user1");
+        order.setUserId(faker.code().ean8());
         order.setAddress(address);
         order.addProduct(product);
-        
-        entityManager.persist(order);
-        entityManager.flush();
+        orderRepository.save(order);
 
-        //assertThat(orderRepository.findByUserId("user1"), is(true));
+        assertThat(orderRepository.count()).isEqualTo(1L);
+        assertThat(productRepository.count()).isEqualTo(1L);
     }
 
 }
