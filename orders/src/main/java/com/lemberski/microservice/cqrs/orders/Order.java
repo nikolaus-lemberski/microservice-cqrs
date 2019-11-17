@@ -1,4 +1,4 @@
-package com.lemberski.microservice.cqrs.myorders;
+package com.lemberski.microservice.cqrs.orders;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -18,7 +18,6 @@ import lombok.ToString;
 @Table("order_item")
 public class Order {
 
-    @Id
     private Long id;
     private String userId;
     private Date orderDate;

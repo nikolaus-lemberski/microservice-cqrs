@@ -11,8 +11,14 @@ applications:
   routes:
   - route: orders.dev.cfdev.sh
   path: ./orders/target/orders-0.0.1-SNAPSHOT.jar
+  services:
+  - rabbitmq-service
+  #- orders-db
 - name: ordersystem
   <<: *defaults
   routes:
   - route: ordersystem.dev.cfdev.sh
   path: ./ordersystem/target/ordersystem-0.0.1-SNAPSHOT.jar
+  services:
+  - rabbitmq-service
+  #- ordersystem-db

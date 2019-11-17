@@ -14,11 +14,15 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderMessageSender orderMessageSender;
+
     @PostMapping
     @Transactional
     public Order placeOrder(@RequestBody Order order) {
         Order persisted = orderRepository.save(order);
         persisted.setProducts(persisted.getProducts().stream().distinct().collect(Collectors.toSet()));
+        orderMessageSender.sendMessage(persisted);
         return persisted;
     }
 
