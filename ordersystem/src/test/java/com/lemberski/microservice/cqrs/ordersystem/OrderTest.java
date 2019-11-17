@@ -22,15 +22,11 @@ public class OrderTest {
     private OrderRepository orderRepository;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
     private Faker faker;
 
     @Test
     public void test() {
         assertThat(orderRepository.count()).isEqualTo(0L);
-        assertThat(productRepository.count()).isEqualTo(0L);
 
         Address address = new Address();
         address.setFirstName(faker.name().firstName());
@@ -56,7 +52,6 @@ public class OrderTest {
         assertThat(persisted).isNotEmpty();
         assertThat(persisted.get().getCreatedDate()).isBeforeOrEqualTo(new Date());
         assertThat(persisted.get().getProducts().size()).isEqualTo(1L);
-        assertThat(productRepository.count()).isEqualTo(1L);
     }
 
 }
