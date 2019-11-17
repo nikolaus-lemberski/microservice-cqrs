@@ -1,15 +1,12 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import org.springframework.data.annotation.AccessType;
-import org.springframework.data.annotation.AccessType.Type;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 
@@ -32,6 +29,9 @@ public class Order {
 
     @Embedded.Nullable
     private Address address;
+
+    @CreatedDate
+    private Date createdDate;
 
     @MappedCollection(idColumn = "order_item")
     private Set<Product> products = new HashSet<>();

@@ -1,8 +1,12 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Date;
+import java.util.Optional;
 
 import com.github.javafaker.Faker;
 
@@ -39,16 +43,19 @@ public class OrderTest {
         Product product = new Product();
         product.setSku(faker.code().ean13());
         product.setTitle(faker.commerce().productName());
-        product.setDescription(faker.hitchhikersGuideToTheGalaxy().marvinQuote());
+        product.setDescription(StringUtils.abbreviate(faker.hitchhikersGuideToTheGalaxy().quote(), 255));
         product.setPrice(10.99);
 
         Order order = new Order();
         order.setUserId(faker.code().ean8());
         order.setAddress(address);
         order.addProduct(product);
-        orderRepository.save(order);
+        order = orderRepository.save(order);
 
-        assertThat(orderRepository.count()).isEqualTo(1L);
+        Optional<Order> persisted = orderRepository.findById(order.getId());
+        assertThat(persisted).isNotEmpty();
+        assertThat(persisted.get().getCreatedDate()).isBeforeOrEqualTo(new Date());
+        assertThat(persisted.get().getProducts().size()).isEqualTo(1L);
         assertThat(productRepository.count()).isEqualTo(1L);
     }
 
