@@ -1,5 +1,7 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -19,6 +21,7 @@ public class Product {
     private String title;
     private String description;
     private Double price;
-    private Long order_item;
-
+    @JsonIgnore
+    private Long orderItem;
+    
 }

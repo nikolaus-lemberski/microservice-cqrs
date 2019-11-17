@@ -51,7 +51,8 @@ public class OrderControllerTest {
         assertThat(order.getUserId()).isEqualTo("user-1");
         assertThat(order.getAddress().getFirstName()).isEqualTo("Vorname");
         assertThat(order.getAddress().getLastName()).isEqualTo("Nachname");
-        assertThat(order.getProducts()).isNotEmpty();
+        assertThat(order.getProducts().size()).isEqualTo(1L);
+        assertThat(order.getProducts().iterator().next().getOrderItem()).isEqualTo(order.getId());
     }
 
 }
