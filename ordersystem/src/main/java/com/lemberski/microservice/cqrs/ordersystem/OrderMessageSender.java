@@ -1,5 +1,7 @@
 package com.lemberski.microservice.cqrs.ordersystem;
 
+import com.lemberski.microservice.cqrs.shared.OrderMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,9 +19,15 @@ public class OrderMessageSender {
 
     @Async
     public void sendMessage(Order order) {
-        LOG.info("Send message: {}", order);
-        rabbitTemplate.convertAndSend(Application.ORDER_QUEUE, String.format("Order with ID %s received.", order.getId()));
-        LOG.info("Message sent");
+        OrderMessage orderMessage = new OrderMessage();
+        orderMessage.setId(order.getId());
+        orderMessage.setUserId(order.getUserId());
+        orderMessage.setOrderDate(order.getCreatedDate());
+        Double totalPrice = order.getProducts().stream().mapToDouble(p -> p.getPrice()).sum();
+        orderMessage.setTotalPrice(totalPrice);
+        orderMessage.setStatus("OPEN");
+        LOG.info("Send message: {}", orderMessage);
+        rabbitTemplate.convertAndSend(Application.ORDER_QUEUE, orderMessage);
     }
 
 }
