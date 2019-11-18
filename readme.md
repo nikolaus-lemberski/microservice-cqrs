@@ -4,10 +4,41 @@ Simple microservice project to demonstrate CQRS pattern with Spring Boot, Spring
 
 Needs SQL Database and RabbitMQ. On Cloud Foundry:
 
+`cf dev start -f Documents/pcfdev-v1.2.0-darwin.tgz -s mysql,rabbitmq`
+
+`cf login -a https://api.dev.cfdev.sh --skip-ssl-validation`
+
 `cf create-service p.rabbitmq single-node-3.7 rabbitmq-service
 cf create-service p.mysql db-small ordersystem-db
 cf create-service p.mysql db-small orders-db`
 
-## Create order
+## Create Order
 
-## Get orders
+Path: `ordersystem.dev.cf-dev.sh`
+
+Payload:
+```json
+{
+    "userId": "user-1",
+    "address": {
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "street": "Straße",
+        "zip": "12345",
+        "city": "Ort",
+        "country": "Deutschland"
+    },
+    "products": [
+        {
+            "sku": "sku123",
+            "title": "Product title",
+            "description": "Product description",
+            "price": 10.50
+        }
+    ]
+}
+```
+
+## Check Orders
+
+Path: `orders.dev.df-dev.sh/<userId>`
