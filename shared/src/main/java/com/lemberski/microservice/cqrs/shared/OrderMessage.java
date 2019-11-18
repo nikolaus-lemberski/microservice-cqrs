@@ -6,20 +6,22 @@ import java.util.Objects;
 
 public class OrderMessage implements Serializable {
 
+    public static final String QUEUE = "cqrx";
+    public static final String TOPIC = "orders";
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Long orderId;
     private String userId;
     private Date orderDate;
     private Double totalPrice;
     private String status;
 
-    public Long getId() {
-        return id;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public String getUserId() {
@@ -57,7 +59,7 @@ public class OrderMessage implements Serializable {
     @Override
     public String toString() {
         return "OrderMessage{" +
-                "id=" + id +
+                "orderId=" + orderId +
                 ", userId='" + userId + '\'' +
                 ", orderDate=" + orderDate +
                 ", totalPrice=" + totalPrice +
@@ -70,7 +72,7 @@ public class OrderMessage implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderMessage that = (OrderMessage) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(orderId, that.orderId) &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(orderDate, that.orderDate) &&
                 Objects.equals(totalPrice, that.totalPrice) &&
@@ -79,7 +81,7 @@ public class OrderMessage implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, orderDate, totalPrice, status);
+        return Objects.hash(orderId, userId, orderDate, totalPrice, status);
     }
 
 }

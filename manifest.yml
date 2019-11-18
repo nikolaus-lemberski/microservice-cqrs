@@ -6,14 +6,6 @@ defaults: &defaults
   instances: 1
 
 applications:
-- name: orders
-  <<: *defaults
-  routes:
-  - route: orders.dev.cfdev.sh
-  path: ./orders/target/orders-0.0.1-SNAPSHOT.jar
-  services:
-  - rabbitmq-service
-  #- orders-db
 - name: ordersystem
   <<: *defaults
   routes:
@@ -22,3 +14,11 @@ applications:
   services:
   - rabbitmq-service
   #- ordersystem-db
+- name: orders
+  <<: *defaults
+  routes:
+    - route: orders.dev.cfdev.sh
+  path: ./orders/target/orders-0.0.1-SNAPSHOT.jar
+  services:
+    - rabbitmq-service
+  #- orders-db
