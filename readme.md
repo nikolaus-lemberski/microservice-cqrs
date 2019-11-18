@@ -45,3 +45,10 @@ Payload:
 ## Check Orders
 
 Path: `orders.dev.df-dev.sh/<userId>`
+
+## Monitor RabbitMQ
+
+```
+cf create-service-key rabbitmq-service rabbitmq-service-key
+cf service-key rabbitmq-service-key rabbitmq-service-key
+```
