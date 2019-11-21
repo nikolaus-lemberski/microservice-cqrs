@@ -1,7 +1,6 @@
 package com.lemberski.microservice.cqrs.orders;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
