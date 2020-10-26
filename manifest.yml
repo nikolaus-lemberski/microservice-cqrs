@@ -9,14 +9,14 @@ applications:
   - name: ordersystem
     <<: *defaults
     routes:
-      - route: ordersystem.dev.cfdev.sh
+      - route: nlemberski-ordersystem.apps.pcfone.io
     path: ./ordersystem/target/ordersystem-0.0.1-SNAPSHOT.jar
     services:
       - rabbitmq-service
   - name: orders
     <<: *defaults
     routes:
-      - route: orders.dev.cfdev.sh
+      - route: nlemberski-orders.apps.pcfone.io
     path: ./orders/target/orders-0.0.1-SNAPSHOT.jar
     services:
       - rabbitmq-service

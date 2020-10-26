@@ -37,9 +37,24 @@ Payload:
 }
 ```
 
+```
+curl -i \
+    -H "Content-Type: application/json" \
+    -X POST -d '{"userId": "user-1", "address": { "firstName": "Vorname", "lastName": "Nachname", "street": "Straße", "zip": "12345", "city": "Ort", "country": "Deutschland" }, "products": [ { "sku": "sku123", "title": "Product title", "description": "Product description", "price": 10.50 } ] }' \
+    https://nlemberski-ordersystem.apps.pcfone.io/
+
+```
+
 ## Check Orders
 
 Path: `orders.dev.df-dev.sh/<userId>`
+
+```
+curl -i \
+    -H "Accept: application/json" \
+    -X GET \
+    https://nlemberski-orders.apps.pcfone.io/user-1
+```
 
 ## Monitor RabbitMQ
 
